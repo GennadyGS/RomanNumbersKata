@@ -21,6 +21,7 @@ type RomanNumbersTests() =
     [<InlineData(7, "VII")>]
     [<InlineData(4, "IV")>]
     [<InlineData(10, "X")>]
+    [<InlineData(9, "IX")>]
     let ``Should return correct result``(number, romanNumber) =
         number |> ToRomanNumber |> should equal romanNumber
 
