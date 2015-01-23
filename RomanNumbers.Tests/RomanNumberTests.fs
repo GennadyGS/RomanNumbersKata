@@ -12,7 +12,7 @@ type RomanNumbersTests() =
     [<InlineData(0)>]
     [<InlineData(4000)>]
     let ``Should raise exception when number not within acceptable range``number =
-        (fun () -> number |> toRomanNumber |> ignore) |> should throw typeof<System.ArgumentOutOfRangeException>
+        (fun () -> number |> ToRomanNumber |> ignore) |> should throw typeof<System.ArgumentOutOfRangeException>
 
     [<Theory>]
     [<InlineData(1, "I")>]
@@ -20,5 +20,5 @@ type RomanNumbersTests() =
     [<InlineData(5, "V")>]
     [<InlineData(7, "VII")>]
     let ``Should return correct result``(number, romanNumber) =
-        number |> toRomanNumber |> should equal romanNumber
+        number |> ToRomanNumber |> should equal romanNumber
 
