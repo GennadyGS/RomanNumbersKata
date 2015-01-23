@@ -30,10 +30,13 @@ module RomanNumbers =
         if number = Ten then
             string TenRomanDigit
         else
-            if number >= Five then 
-                string FiveRomanDigit + DuplicateOneDigits (number - Five)
+            if number = Ten - One then
+                string OneRomanDigit + string TenRomanDigit
             else
-                if number = Five - One then
-                    string OneRomanDigit + string FiveRomanDigit
+                if number >= Five then 
+                    string FiveRomanDigit + DuplicateOneDigits (number - Five)
                 else
-                    DuplicateOneDigits number    
+                    if number = Five - One then
+                        string OneRomanDigit + string FiveRomanDigit
+                    else
+                        DuplicateOneDigits number    
