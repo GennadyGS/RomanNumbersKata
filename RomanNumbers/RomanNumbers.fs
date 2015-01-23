@@ -13,6 +13,12 @@ module RomanNumbers =
     [<Literal>]
     let FiveRomanDigit = 'V'
 
+    [<Literal>]
+    let Ten = 10
+    
+    [<Literal>]
+    let TenRomanDigit = 'X'
+
     let ToRomanNumber number = 
 
         let DuplicateOneDigits number = 
@@ -21,10 +27,13 @@ module RomanNumbers =
         if number <= 0 || number > 3999 then
             raise (System.ArgumentOutOfRangeException(number |> sprintf "Number %i cannot be represented as roman number"))
         
-        if number >= Five then 
-            string FiveRomanDigit + DuplicateOneDigits (number - Five)
+        if number = Ten then
+            string TenRomanDigit
         else
-            if number = Five - One then
-                string OneRomanDigit + string FiveRomanDigit
+            if number >= Five then 
+                string FiveRomanDigit + DuplicateOneDigits (number - Five)
             else
-                DuplicateOneDigits number    
+                if number = Five - One then
+                    string OneRomanDigit + string FiveRomanDigit
+                else
+                    DuplicateOneDigits number    
