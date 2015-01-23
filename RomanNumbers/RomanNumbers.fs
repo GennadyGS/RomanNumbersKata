@@ -5,6 +5,6 @@ module RomanNumbers =
         if number <= 0 || number > 3999 then
             raise (System.ArgumentOutOfRangeException(number |> sprintf "Number %i cannot be represented as roman number"))
         if number >= 5 then 
-            "V"
+            "V" + ("I" |> String.replicate (number - 5))
         else
             "I" |> String.replicate number
