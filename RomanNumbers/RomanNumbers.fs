@@ -27,7 +27,7 @@ module RomanNumbers =
         let ToRomanDigit digit = 
             match digit with
             | 9 -> string OneRomanDigit + string TenRomanDigit
-            | 5 | 6 | 7 | 8 -> string FiveRomanDigit + DuplicateOneDigits (number - Five)
+            | 5 | 6 | 7 | 8 -> string FiveRomanDigit + DuplicateOneDigits (digit - Five)
             | 4 -> string OneRomanDigit + string FiveRomanDigit
             | 0 | 1 | 2 | 3 -> DuplicateOneDigits digit   
             | _ -> raise (System.ArgumentOutOfRangeException())
