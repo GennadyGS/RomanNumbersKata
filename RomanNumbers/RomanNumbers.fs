@@ -24,13 +24,18 @@ module RomanNumbers =
         let DuplicateOneDigits number = 
             new string(OneRomanDigit, number)
 
+        let ToRomanDigit digit = 
+            match digit with
+            | 9 -> string OneRomanDigit + string TenRomanDigit
+            | 5 | 6 | 7 | 8 -> string FiveRomanDigit + DuplicateOneDigits (number - Five)
+            | 4 -> string OneRomanDigit + string FiveRomanDigit
+            | 0 | 1 | 2 | 3 -> DuplicateOneDigits digit   
+            | _ -> raise (System.ArgumentOutOfRangeException())
+
         if number <= 0 || number > 3999 then
             raise (System.ArgumentOutOfRangeException(number |> sprintf "Number %i cannot be represented as roman number"))
         
-        match number with
-        | 10 -> string TenRomanDigit
-        | 9 -> string OneRomanDigit + string TenRomanDigit
-        | 5 | 6 | 7 | 8 -> string FiveRomanDigit + DuplicateOneDigits (number - Five)
-        | 4 -> string OneRomanDigit + string FiveRomanDigit
-        | 0 | 1 | 2 | 3 -> DuplicateOneDigits number   
-        | _ -> raise (System.ArgumentOutOfRangeException())
+        if number >= 10 then
+            string TenRomanDigit + ToRomanDigit (number % Ten)
+        else
+            ToRomanDigit number
