@@ -27,16 +27,10 @@ module RomanNumbers =
         if number <= 0 || number > 3999 then
             raise (System.ArgumentOutOfRangeException(number |> sprintf "Number %i cannot be represented as roman number"))
         
-        if number = Ten then
-            string TenRomanDigit
-        else
-            if number = Ten - One then
-                string OneRomanDigit + string TenRomanDigit
-            else
-                if number >= Five then 
-                    string FiveRomanDigit + DuplicateOneDigits (number - Five)
-                else
-                    if number = Five - One then
-                        string OneRomanDigit + string FiveRomanDigit
-                    else
-                        DuplicateOneDigits number    
+        match number with
+        | 10 -> string TenRomanDigit
+        | 9 -> string OneRomanDigit + string TenRomanDigit
+        | 5 | 6 | 7 | 8 -> string FiveRomanDigit + DuplicateOneDigits (number - Five)
+        | 4 -> string OneRomanDigit + string FiveRomanDigit
+        | 0 | 1 | 2 | 3 -> DuplicateOneDigits number   
+        | _ -> raise (System.ArgumentOutOfRangeException())
