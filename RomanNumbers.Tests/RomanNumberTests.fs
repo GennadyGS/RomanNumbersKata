@@ -10,9 +10,9 @@ type RomanNumbersTests() =
     [<Theory>]
     [<InlineData(-1)>]
     [<InlineData(0)>]
-    [<InlineData(1001)>]
+    [<InlineData(4000)>]
     let ``Should raise exception when number not within acceptable range``number =
-        number |> toRomanNumber |> should throw typeof<System.ArgumentOutOfRangeException>
+        (fun () -> number |> toRomanNumber |> ignore) |> should throw typeof<System.ArgumentOutOfRangeException>
 
     [<Theory>]
     [<InlineData(1, "I")>]
