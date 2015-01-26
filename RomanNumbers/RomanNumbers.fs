@@ -30,7 +30,7 @@ module RomanNumbers =
 
         let rec ToRomanNumberByDigitDefs number romanDigitsDefs = 
             
-            let ToRomanNumberByUnitsAndTensDigitDefs number unitsRomanDigitsDef tensRomanDigitsDef = 
+            let ToRomanNumberByUnitsAndTensDigitsDefs number unitsRomanDigitsDef tensRomanDigitsDef = 
                     let units = number % Ten
                     let tens = (number - units) / Ten
                     let unitsRomanDigits = ToRomanDigit units unitsRomanDigitsDef
@@ -40,12 +40,12 @@ module RomanNumbers =
             if number > 0 then
                 match romanDigitsDefs with
                 | (oneRomanDigit, someFiveRomanDigit) :: (tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits -> 
-                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, someFiveRomanDigit, Some(tenRomanDigit)) ((tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits)
+                    ToRomanNumberByUnitsAndTensDigitsDefs number (oneRomanDigit, someFiveRomanDigit, Some(tenRomanDigit)) ((tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits)
                 | (oneRomanDigit, someFiveRomanDigit) :: tensRomanDigits ->
-                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, someFiveRomanDigit, None) tensRomanDigits
+                    ToRomanNumberByUnitsAndTensDigitsDefs number (oneRomanDigit, someFiveRomanDigit, None) tensRomanDigits
                 | [] -> raise (System.ArgumentOutOfRangeException())
             else System.String.Empty
         
         if number <= 0 then
-            raise (System.ArgumentOutOfRangeException(number |> sprintf "Number %i cannot be represented as roman number"))
+            raise (System.ArgumentOutOfRangeException("Negative number cannot be represented as roman number"))
         ToRomanNumberByDigitDefs number RomanDigitsDefs
