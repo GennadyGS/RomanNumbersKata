@@ -11,24 +11,20 @@ module RomanNumbers =
 
     let ToRomanNumber number = 
 
-        let ToRomanDigit digit (oneRomanDigit, someFiveRomanDigit, someTenRomanDidit) = 
+        let ToRomanDigit digit (oneRomanDigit, someFiveRomanDigit, someTenRomanDigit) = 
+
+            let checkGetDigit someDigit = 
+                match someDigit with
+                | Some(digit) -> digit
+                | None -> raise (System.ArgumentOutOfRangeException())
 
             let DuplicateDigit number digit = 
                 new string(digit, number)
 
             match digit with
-            | 9 -> 
-                match someTenRomanDidit with
-                | Some(tenRomanDigit) -> string oneRomanDigit + string tenRomanDigit    
-                | None -> raise (System.ArgumentOutOfRangeException())
-            | 5 | 6 | 7 | 8 -> 
-                match someFiveRomanDigit with
-                | Some(fiveRomanDigit) -> string fiveRomanDigit + DuplicateDigit (digit - Five) oneRomanDigit
-                | None -> raise (System.ArgumentOutOfRangeException())
-            | 4 -> 
-                match someFiveRomanDigit with
-                | Some(fiveRomanDigit) -> string oneRomanDigit + string fiveRomanDigit
-                | None -> raise (System.ArgumentOutOfRangeException())
+            | 9 -> string oneRomanDigit + string (checkGetDigit someTenRomanDigit)
+            | 5 | 6 | 7 | 8 -> string (checkGetDigit someFiveRomanDigit) + DuplicateDigit (digit - Five) oneRomanDigit
+            | 4 -> string oneRomanDigit + string (checkGetDigit someFiveRomanDigit)
             | 0 | 1 | 2 | 3 -> DuplicateDigit digit oneRomanDigit   
             | _ -> raise (System.ArgumentOutOfRangeException())
 
