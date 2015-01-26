@@ -7,11 +7,11 @@ module RomanNumbers =
     [<Literal>]
     let Five = 5
 
-    let RomanDigitsDefs = [ ('I', 'V'); ('X', 'L'); ('C', 'D')]
+    let RomanDigitsDefs = [ ('I', Some('V')); ('X', Some('L')); ('C', Some('D')); ('M', None)]
 
     let ToRomanNumber number = 
 
-        let ToRomanDigit digit (oneRomanDigit, fiveRomanDigit, someTenRomanDidit) = 
+        let ToRomanDigit digit (oneRomanDigit, someFiveRomanDigit, someTenRomanDidit) = 
 
             let DuplicateOneDigits number romanDigit = 
                 new string(romanDigit, number)
@@ -21,8 +21,14 @@ module RomanNumbers =
                 match someTenRomanDidit with
                 | Some(tenRomanDigit) -> string oneRomanDigit + string tenRomanDigit    
                 | None -> raise (System.ArgumentOutOfRangeException())
-            | 5 | 6 | 7 | 8 -> string fiveRomanDigit + DuplicateOneDigits (digit - Five) oneRomanDigit
-            | 4 -> string oneRomanDigit + string fiveRomanDigit
+            | 5 | 6 | 7 | 8 -> 
+                match someFiveRomanDigit with
+                | Some(fiveRomanDigit) -> string fiveRomanDigit + DuplicateOneDigits (digit - Five) oneRomanDigit
+                | None -> raise (System.ArgumentOutOfRangeException())
+            | 4 -> 
+                match someFiveRomanDigit with
+                | Some(fiveRomanDigit) -> string oneRomanDigit + string fiveRomanDigit
+                | None -> raise (System.ArgumentOutOfRangeException())
             | 0 | 1 | 2 | 3 -> DuplicateOneDigits digit oneRomanDigit   
             | _ -> raise (System.ArgumentOutOfRangeException())
 
@@ -37,10 +43,10 @@ module RomanNumbers =
 
             if number > 0 then
                 match romanDigitsDefs with
-                | (oneRomanDigit, fiveRomanDigit) :: (tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits -> 
-                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, fiveRomanDigit, Some(tenRomanDigit)) ((tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits)
-                | (oneRomanDigit, fiveRomanDigit) :: tensRomanDigits -> 
-                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, fiveRomanDigit, None) tensRomanDigits
+                | (oneRomanDigit, someFiveRomanDigit) :: (tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits -> 
+                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, someFiveRomanDigit, Some(tenRomanDigit)) ((tenRomanDigit, fiftyRomanDigit) :: hundredsRomanDigits)
+                | (oneRomanDigit, someFiveRomanDigit) :: tensRomanDigits ->
+                    ToRomanNumberByUnitsAndTensDigitDefs number (oneRomanDigit, someFiveRomanDigit, None) tensRomanDigits
                 | [] -> raise (System.ArgumentOutOfRangeException())
             else System.String.Empty
         
