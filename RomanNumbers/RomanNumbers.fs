@@ -11,13 +11,6 @@ module RomanNumbers =
 
     let ToRomanNumber number = 
 
-        let BindBinaryOp binaryOp someA someB = 
-            match (someA, someB) with
-            | (Some(a), Some(b)) -> Some(binaryOp a b)
-            | _ -> None
-
-        let AddReversed a b = b + a
-
         let ToRomanDigit digit (oneRomanDigit, someFiveRomanDigit, someTenRomanDigit) = 
 
             let DuplicateDigit number digit = 
@@ -27,7 +20,7 @@ module RomanNumbers =
             | 9 -> 
                 someTenRomanDigit |> (Option.map string) |> Option.map ((+) (string oneRomanDigit))
             | 5 | 6 | 7 | 8 -> 
-                someFiveRomanDigit |> (Option.map string) |> Option.map (AddReversed (DuplicateDigit (digit - Five) oneRomanDigit))
+                someFiveRomanDigit |> (Option.map string) |> Option.map (Utils.AddReversed (DuplicateDigit (digit - Five) oneRomanDigit))
             | 4 -> 
                 someFiveRomanDigit |> (Option.map string) |> Option.map ((+) (string oneRomanDigit))
             | 0 | 1 | 2 | 3 -> 
@@ -41,7 +34,7 @@ module RomanNumbers =
                 let tens = (number - units) / Ten
                 let someUnitsRomanDigits = ToRomanDigit units unitsRomanDigitsDef
                 let someTensRomanDigits = ToRomanNumberByDigitDefs tens tensRomanDigitsDef
-                BindBinaryOp (+) someTensRomanDigits someUnitsRomanDigits 
+                Utils.BindBinaryOp (+) someTensRomanDigits someUnitsRomanDigits 
 
             if number > 0 then
                 match romanDigitsDefs with
