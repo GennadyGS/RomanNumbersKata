@@ -7,7 +7,7 @@ module RomanNumbers =
     [<Literal>]
     let Five = 5
 
-    let RomanDigitsDefs = [ ('I', 'V'); ('X', 'L')]
+    let RomanDigitsDefs = [ ('I', 'V'); ('X', 'L'); ('C', 'D')]
 
     let ToRomanNumber number = 
 
